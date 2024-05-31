@@ -292,7 +292,8 @@
 
             if (newKey && newKey !== oldKey) {
                 sheet.Rows.forEach(row => {
-                    row[newKey] = row[oldKey];
+                    Object.defineProperty(row, newKey,
+                        Object.getOwnPropertyDescriptor(row, oldKey));
                     delete row[oldKey];
                 });
                 createTableFromJSON();
@@ -399,9 +400,7 @@
                         }
                         updatedRow[key] = row[key];
                     });
-                    for (const key in updatedRow) {
-                        row[key] = updatedRow[key];
-                    }
+                    Object.assign(row, updatedRow);
                 });
                 createTableFromJSON();
             }
@@ -420,9 +419,7 @@
                             updatedRow[newKey] = '';
                         }
                     });
-                    for (const key in updatedRow) {
-                        row[key] = updatedRow[key];
-                    }
+                    Object.assign(row, updatedRow);
                 });
                 createTableFromJSON();
             }
@@ -437,7 +434,7 @@
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('progressMessage').innerText = '';
                 document.getElementById('jsonTable').style.display = 'table';
-            }, 1000); // Simulate a delay for the loader
+            }, 500); // Simulate a delay for the loader
         }
 
         window.onload = () => {
