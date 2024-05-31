@@ -130,9 +130,7 @@
     </table>
     <div class="button-group">
         <button onclick="addRow()">Add Row</button>
-        <button onclick="deleteRow()">Delete Row</button>
         <button onclick="addCell()">Add Cell</button>
-        <button onclick="deleteCell()">Delete Cell</button>
         <button onclick="updateJSON()" class="highlight-button">Update JSON</button>
         <button id="copyJsonButton" onclick="copyJSON()" class="highlight-button" style="display: none;">Copy JSON</button>
     </div>
@@ -142,10 +140,12 @@
     <div id="contextMenu" class="context-menu">
         <button onclick="insertRowAbove()">Insert Row Above</button>
         <button onclick="insertRowBelow()">Insert Row Below</button>
+        <button onclick="deleteCurrentRow()">Delete Current Row</button>
     </div>
     <div id="headerContextMenu" class="context-menu">
         <button onclick="insertColumnLeft()">Insert Column Left</button>
         <button onclick="insertColumnRight()">Insert Column Right</button>
+        <button onclick="deleteCurrentColumn()">Delete Current Column</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
@@ -225,6 +225,7 @@
             // Create rows
             sheet.Rows.forEach((row, rowIndex) => {
                 const tr = document.createElement('tr');
+                tr.dataset.rowIndex = rowIndex;
                 tr.addEventListener('contextmenu', (event) => showContextMenu(event, rowIndex));
                 tr.addEventListener('click', () => selectRow(rowIndex));
                 keys.forEach(key => {
@@ -256,10 +257,13 @@
             createTableFromJSON();
         }
 
-        function deleteRow() {
-            const sheet = workbook.Sheets[currentSheetIndex];
-            sheet.Rows.pop();
-            createTableFromJSON();
+        function deleteCurrentRow() {
+            if (contextMenuRowIndex !== null) {
+                const sheet = workbook.Sheets[currentSheetIndex];
+                sheet.Rows.splice(contextMenuRowIndex, 1);
+                createTableFromJSON();
+                contextMenuRowIndex = null;
+            }
         }
 
         function addCell() {
@@ -271,13 +275,14 @@
             }
         }
 
-        function deleteCell() {
-            const sheet = workbook.Sheets[currentSheetIndex];
-            const keys = Object.keys(sheet.Rows[0]);
-            const keyToDelete = prompt("Enter the name of the cell to delete:", keys.join(', '));
-            if (keys.includes(keyToDelete)) {
+        function deleteCurrentColumn() {
+            if (contextMenuColumnIndex !== null) {
+                const sheet = workbook.Sheets[currentSheetIndex];
+                const keys = Object.keys(sheet.Rows[0]);
+                const keyToDelete = keys[contextMenuColumnIndex];
                 sheet.Rows.forEach(row => delete row[keyToDelete]);
                 createTableFromJSON();
+                contextMenuColumnIndex = null;
             }
         }
 
