@@ -161,6 +161,8 @@
     <div id="headerContextMenu" class="context-menu">
         <button onclick="insertColumnLeft()">Insert Column Left</button>
         <button onclick="insertColumnRight()">Insert Column Right</button>
+        <button onclick="moveColumnLeft()">Move Column Left</button>
+        <button onclick="moveColumnRight()">Move Column Right</button>
         <button onclick="deleteCurrentColumn()">Delete Current Column</button>
     </div>
 
@@ -168,26 +170,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/json.min.js"></script>
     <script>
         let workbook = {
-            "WorkbookName": "MyWorkbook",
-            "Sheets": [
-                {
-                    "SheetName": "Sheet1",
-                    "Rows": [
-                        {"A": "John", "B": 30, "C": "New York"},
-                        {"A": "Anna", "B": 22, "C": "London"},
-                        {"A": "Mike", "B": 32, "C": "Chicago"}
-                    ]
-                },
-                {
-                    "SheetName": "Sheet2",
-                    "Rows": [
-                        {"A": "Product", "B": "Price", "C": "Quantity"},
-                        {"A": "Apple", "B": 1.2, "C": 10},
-                        {"A": "Banana", "B": 0.8, "C": 5},
-                        {"A": "Cherry", "B": 2.5, "C": 20}
-                    ]
-                }
-            ]
+           
         };
 
         if (localStorage.getItem('workbook')) {
@@ -425,6 +408,56 @@
             }
         }
 
+        function moveColumnLeft() {
+            const sheet = workbook.Sheets[currentSheetIndex];
+            const keys = Object.keys(sheet.Rows[0]);
+            if (contextMenuColumnIndex > 0) {
+                const keyToMove = keys[contextMenuColumnIndex];
+                const keyToSwap = keys[contextMenuColumnIndex - 1];
+                keys[contextMenuColumnIndex] = keyToSwap;
+                keys[contextMenuColumnIndex - 1] = keyToMove;
+
+                sheet.Rows.forEach(row => {
+                    const temp = row[keyToMove];
+                    row[keyToMove] = row[keyToSwap];
+                    row[keyToSwap] = temp;
+                });
+                workbook.Sheets[currentSheetIndex].Rows = reorderKeys(sheet.Rows, keys);
+                createTableFromJSON();
+            }
+            hideContextMenu();
+        }
+
+        function moveColumnRight() {
+            const sheet = workbook.Sheets[currentSheetIndex];
+            const keys = Object.keys(sheet.Rows[0]);
+            if (contextMenuColumnIndex < keys.length - 1) {
+                const keyToMove = keys[contextMenuColumnIndex];
+                const keyToSwap = keys[contextMenuColumnIndex + 1];
+                keys[contextMenuColumnIndex] = keyToSwap;
+                keys[contextMenuColumnIndex + 1] = keyToMove;
+
+                sheet.Rows.forEach(row => {
+                    const temp = row[keyToMove];
+                    row[keyToMove] = row[keyToSwap];
+                    row[keyToSwap] = temp;
+                });
+                workbook.Sheets[currentSheetIndex].Rows = reorderKeys(sheet.Rows, keys);
+                createTableFromJSON();
+            }
+            hideContextMenu();
+        }
+
+        function reorderKeys(rows, keys) {
+            return rows.map(row => {
+                const reorderedRow = {};
+                keys.forEach(key => {
+                    reorderedRow[key] = row[key];
+                });
+                return reorderedRow;
+            });
+        }
+
         function viewAsTable() {
             document.getElementById('loader').style.display = 'block';
             document.getElementById('progressMessage').innerText = 'Rendering table, please wait...';
@@ -434,7 +467,7 @@
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('progressMessage').innerText = '';
                 document.getElementById('jsonTable').style.display = 'table';
-            }, 500); // Simulate a delay for the loader
+            }, 1000); // Simulate a delay for the loader
         }
 
         window.onload = () => {
