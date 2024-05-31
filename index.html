@@ -42,7 +42,7 @@
             gap: 10px;
             margin-bottom: 20px;
         }
-        button {
+        button, .styled-input-file {
             background-color: #007bff;
             color: white;
             border: none;
@@ -52,8 +52,21 @@
             border-radius: 4px;
             font-size: 14px;
         }
-        button:hover {
+        button:hover, .styled-input-file:hover {
             background-color: #0056b3;
+        }
+        .styled-input-file {
+            display: inline-block;
+            position: relative;
+        }
+        .styled-input-file input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            cursor: pointer;
         }
         .context-menu {
             display: none;
@@ -116,8 +129,13 @@
 </head>
 <body>
     <h1>JSON Table Editor</h1>
-    <input type="file" id="fileInput" />
-    <button id="viewTableButton" onclick="viewAsTable()" style="display: none;">View as Table</button>
+    <div class="button-group">
+        <label class="styled-input-file">
+            Upload JSON
+            <input type="file" id="fileInput" />
+        </label>
+        <button id="viewTableButton" onclick="viewAsTable()" style="display: none;">View as Table</button>
+    </div>
     <br><br>
     <div id="loader"></div>
     <div id="progressMessage"></div>
@@ -129,8 +147,6 @@
         <tbody id="jsonTableBody"></tbody>
     </table>
     <div class="button-group">
-        <button onclick="addRow()">Add Row</button>
-        <button onclick="addCell()">Add Cell</button>
         <button onclick="updateJSON()" class="highlight-button">Update JSON</button>
         <button id="copyJsonButton" onclick="copyJSON()" class="highlight-button" style="display: none;">Copy JSON</button>
     </div>
@@ -248,30 +264,12 @@
             document.querySelector(`tr[data-row-index="${rowIndex}"]`).classList.add('selected-row');
         }
 
-        function addRow() {
-            const sheet = workbook.Sheets[currentSheetIndex];
-            const newRow = {};
-            const keys = Object.keys(sheet.Rows[0]);
-            keys.forEach(key => newRow[key] = '');
-            sheet.Rows.push(newRow);
-            createTableFromJSON();
-        }
-
         function deleteCurrentRow() {
             if (contextMenuRowIndex !== null) {
                 const sheet = workbook.Sheets[currentSheetIndex];
                 sheet.Rows.splice(contextMenuRowIndex, 1);
                 createTableFromJSON();
                 contextMenuRowIndex = null;
-            }
-        }
-
-        function addCell() {
-            const sheet = workbook.Sheets[currentSheetIndex];
-            const newKey = prompt("Enter the name for the new cell:");
-            if (newKey) {
-                sheet.Rows.forEach(row => row[newKey] = '');
-                createTableFromJSON();
             }
         }
 
