@@ -20,10 +20,32 @@
         button {
             margin: 5px;
         }
+        .context-menu {
+            display: none;
+            position: absolute;
+            z-index: 1000;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .context-menu button {
+            display: block;
+            width: 100%;
+            border: none;
+            background: none;
+            text-align: left;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .context-menu button:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
     <h1>JSON Table Editor</h1>
+    <select id="sheetSelector" onchange="selectSheet()"></select>
     <table id="jsonTable">
         <thead>
             <tr id="headerRow"></tr>
@@ -39,6 +61,12 @@
     <br>
     <button onclick="updateJSON()">Update JSON</button>
     <button onclick="copyJSON()">Copy JSON</button>
+    
+    <div id="contextMenu" class="context-menu">
+        <button onclick="insertRowAbove()">Insert Row Above</button>
+        <button onclick="insertRowBelow()">Insert Row Below</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
