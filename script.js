@@ -23,6 +23,7 @@ let workbook = {
 
 let currentSheetIndex = 0;
 let contextMenuRowIndex = null;
+let contextMenuColumnIndex = null;
 
 function loadSheetSelector() {
     const sheetSelector = document.getElementById('sheetSelector');
@@ -59,6 +60,7 @@ function createTableFromJSON() {
         th.contentEditable = true;
         th.innerText = key;
         th.dataset.index = index;
+        th.addEventListener('contextmenu', (event) => showHeaderContextMenu(event, index));
         th.addEventListener('blur', updateHeader);
         headerRow.appendChild(th);
     });
@@ -171,7 +173,21 @@ function showContextMenu(event, rowIndex) {
 function hideContextMenu() {
     const contextMenu = document.getElementById('contextMenu');
     contextMenu.style.display = 'none';
+    const headerContextMenu = document.getElementById('headerContextMenu');
+    headerContextMenu.style.display = 'none';
     document.removeEventListener('click', hideContextMenu);
+}
+
+function showHeaderContextMenu(event, columnIndex) {
+    event.preventDefault();
+    contextMenuColumnIndex = columnIndex;
+
+    const headerContextMenu = document.getElementById('headerContextMenu');
+    headerContextMenu.style.display = 'block';
+    headerContextMenu.style.left = `${event.pageX}px`;
+    headerContextMenu.style.top = `${event.pageY}px`;
+
+    document.addEventListener('click', hideContextMenu);
 }
 
 function insertRowAbove() {
@@ -192,6 +208,48 @@ function insertRowBelow() {
     sheet.Rows.splice(contextMenuRowIndex + 1, 0, newRow);
     createTableFromJSON();
     hideContextMenu();
+}
+
+function insertColumnLeft() {
+    const sheet = workbook.Sheets[currentSheetIndex];
+    const keys = Object.keys(sheet.Rows[0]);
+    const newKey = prompt("Enter the name for the new column:");
+    if (newKey) {
+        sheet.Rows.forEach(row => {
+            const updatedRow = {};
+            keys.forEach((key, index) => {
+                if (index === contextMenuColumnIndex) {
+                    updatedRow[newKey] = '';
+                }
+                updatedRow[key] = row[key];
+            });
+            for (const key in updatedRow) {
+                row[key] = updatedRow[key];
+            }
+        });
+        createTableFromJSON();
+    }
+}
+
+function insertColumnRight() {
+    const sheet = workbook.Sheets[currentSheetIndex];
+    const keys = Object.keys(sheet.Rows[0]);
+    const newKey = prompt("Enter the name for the new column:");
+    if (newKey) {
+        sheet.Rows.forEach(row => {
+            const updatedRow = {};
+            keys.forEach((key, index) => {
+                updatedRow[key] = row[key];
+                if (index === contextMenuColumnIndex) {
+                    updatedRow[newKey] = '';
+                }
+            });
+            for (const key in updatedRow) {
+                row[key] = updatedRow[key];
+            }
+        });
+        createTableFromJSON();
+    }
 }
 
 window.onload = () => {
