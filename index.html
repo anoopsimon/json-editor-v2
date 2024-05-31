@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Table Editor</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JSON Table Editor</h1>
+    <table id="jsonTable">
+        <thead>
+            <tr id="headerRow"></tr>
+        </thead>
+        <tbody id="jsonTableBody"></tbody>
+    </table>
+    <button onclick="addRow()">Add Row</button>
+    <button onclick="deleteRow()">Delete Row</button>
+    <button onclick="addCell()">Add Cell</button>
+    <button onclick="deleteCell()">Delete Cell</button>
+    <br><br>
+    <textarea id="jsonOutput" rows="10" cols="50"></textarea>
+    <br>
+    <button onclick="updateJSON()">Update JSON</button>
+    <button onclick="copyJSON()">Copy JSON</button>
+    <script src="script.js"></script>
+</body>
+</html>
