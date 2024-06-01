@@ -28,19 +28,44 @@ function jsonEditorInit(table_container_id, json_input_container_id, json_output
 
     // Load JSON from storage
     loadJsonFromStorage();
-
     $('#' + table_to_json_btn_id).on('click', function(){
         var jsonData = makeJson();
         saveJsonToStorage(jsonData); // Save JSON to storage
         var j = JSON.stringify(jsonData);
-        if ( $('#' + json_output_container_id ).is("input") ) {	
-            $('#' + json_output_container_id ).val(j);
-        } else {
-            $('#' + json_output_container_id ).html(j);
+    
+        var jsonObject = JSON.parse(j);
+        var prettyJsonString = JSON.stringify(jsonObject, null, 4); // 4-space indentation
+    
+        var container = document.getElementById(json_output_container_id);
+        var textarea = container.querySelector('textarea');
+    
+        if (!textarea) {
+            textarea = document.createElement('textarea');
+            textarea.style.height = '1000px';
+            textarea.style.width = '500px';
+            container.appendChild(textarea);
         }
-
-        renderJsonEditor(j);
+    
+        textarea.value = prettyJsonString;
+        copyToClipboard(prettyJsonString);
     });
+    
+    
+        //
+        function copyToClipboard(jsonString) {
+            navigator.clipboard.writeText(jsonString).then(function() {
+                console.log('Copied to clipboard successfully!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+
+            // Show confirmation popup
+            var popup = document.getElementById('confirmationPopup');
+            popup.style.visibility = 'visible';
+            setTimeout(function() {
+                popup.style.visibility = 'hidden';
+            }, 2000);
+        }
 
     $('#' + json_to_table_btn_id).on('click', function(){
         try {
