@@ -2,35 +2,52 @@
 <html>
 
 <head>
-        <link rel="stylesheet" href="./styles/bootstrap.min.css"/>
-        <link rel="stylesheet" href="./styles/jquery.contextMenu.min.css"/>
-    </head>
+    <link rel="stylesheet" href="./styles/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./styles/jquery.contextMenu.min.css"/>
+    <style>
+        #textarea_container {
+            display: flex;
+            align-items: flex-start;
+        }
+        #Textarea1 {
+            flex: 1;
+            display: none;
+        }
+        #textarea_buttons {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+        }
+    </style>
+</head>
 
 <body>
 
-    <div class = "container"> 
+    <div class="container">
+
+        <div class="row mt-3">
+            <div class='col-md-12'>
+                <label for="file_input">Upload a JSON file</label>
+                <input type="file" id="file_input" class="form-control-file" accept=".json">
+            </div>
+        </div>
 
         <div class="row mt-3">
             <div id='input_container' class='col-md-12'>
-                <label for="Textarea1">Enter a json array of objects</label>
-                <textarea class="form-control" id="Textarea1" rows="8">
-        [
-        {"id":1, "name":"name1"},
-        {"id":2, "name":"name2", "salary":2000},
-        {"id":3, "name":"name3"},
-        {"id":4, "name":"name4", "bonus":3000},
-        {"id":5, "name":"name5", "salary":{"basic":2000, "extra":"500"}},
-        {"id":6, "name":"name6", "bonus":[{"quarter":1, "first":1000, "second":"500"},{"quarter":2, "first":1000, "second":"500"}]}
-        ]
-                    </textarea>
+                <div id="textarea_container">
+                    <textarea class="form-control" id="Textarea1" rows="8">[]</textarea>
+                    <div id="textarea_buttons">
+                        <button id='expand_btn' type="button" class="btn btn-secondary btn-sm">Expand</button>
+                        <button id='collapse_btn' type="button" class="btn btn-secondary btn-sm">Collapse</button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="row mt-3">
             <div class='col-md-4'></div>
             <div id='button_container' class='col-md-3'>
-                <button id='json_to_table_btn' type="button" class="btn btn-primary btn-lg btn-block">JSON to
-                    Table</button>
+                <button id='json_to_table_btn' type="button" class="btn btn-primary btn-lg btn-block">JSON to Table</button>
             </div>
         </div>
 
@@ -41,34 +58,47 @@
         <div class="row mt-3">
             <div class='col-md-4'></div>
             <div id='button_container' class='col-md-3'>
-                <button id='table_to_json_btn' type="button" class="btn btn-primary btn-lg btn-block">Table to
-                    JSON</button>
+                <button id='table_to_json_btn' type="button" class="btn btn-primary btn-lg btn-block">Table to JSON</button>
             </div>
         </div>
 
         <div class="row mt-3">
             <div id='result_container' class='col-md-12'></div>
         </div>
-        
+
     </div>
 
-        <script src="./scripts/jquery-3.3.1.min.js"></script>
-        <script src="./scripts/bootstrap.min.js"></script>
-        <script src="./scripts/jquery.contextMenu.min.js"></script>
-        <script src="./scripts/jsoneditor.js"></script>
+    <script src="./scripts/jquery-3.3.1.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/jquery.contextMenu.min.js"></script>
+    <script src="./scripts/jsoneditor.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            jsonEditorInit('table_container', 'Textarea1', 'result_container', 'json_to_table_btn', 'table_to_json_btn');
 
-        <script>
-
-            $(document).ready(function () {
-
-                jsonEditorInit('table_container', 'Textarea1', 'result_container', 'json_to_table_btn', 'table_to_json_btn');
-
+            $('#file_input').on('change', function (event) {
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#Textarea1').val(e.target.result);
+                        $('#Textarea1').show();
+                    }
+                    reader.readAsText(file);
+                }
             });
 
-        </script>
+            $('#expand_btn').on('click', function () {
+                $('#Textarea1').show();
+                $('#Textarea1').css('height', '400px');
+            });
 
-
+            $('#collapse_btn').on('click', function () {
+                $('#Textarea1').hide();
+            });
+        });
+    </script>
 
 </body>
 
