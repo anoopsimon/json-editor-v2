@@ -1,0 +1,58 @@
+[
+    {
+        "sheetName": "Login",
+        "rows": [
+            {
+                "FieldName": "FieldName",
+                "ControlType": "ControlType",
+                "Selector": "Selector"
+            },
+            {
+                "FieldName": "FieldQWERT",
+                "ControlType": "Input",
+                "Selector": "#ASDFG",
+                "TestCaseID": "TC123456"
+            },
+            {
+                "FieldName": "FieldZXCVB",
+                "ControlType": "Input",
+                "Selector": "#QWERT",
+                "TestCaseID": "TC234567"
+            },
+            {
+                "FieldName": "FieldASDFG",
+                "ControlType": "Input",
+                "Selector": "#ZXCVB",
+                "TestCaseID": "TC345678"
+            }
+        ]
+    },
+    {
+        "sheetName": "Product Selection",
+        "rows": [
+            {
+                "FieldName": "FieldName",
+                "ControlType": "ControlType",
+                "Selector": "Selector"
+            },
+            {
+                "FieldName": "FieldQWERT",
+                "ControlType": "Input",
+                "Selector": "#ASDFG",
+                "TestCaseID": "TC456789"
+            },
+            {
+                "FieldName": "FieldZXCVB",
+                "ControlType": "Input",
+                "Selector": "#QWERT",
+                "TestCaseID": "TC567890"
+            },
+            {
+                "FieldName": "FieldASDFG",
+                "ControlType": "Input",
+                "Selector": "#ZXCVB",
+                "TestCaseID": "TC678901"
+            }
+        ]
+    }
+]

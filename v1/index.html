@@ -2,11 +2,27 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.css">
+
     <link rel="stylesheet" href="./styles/bootstrap.min.css"/>
     <link rel="stylesheet" href="./styles/jquery.contextMenu.min.css"/>
     <style>
         body {
             font-family: Arial, sans-serif;
+        }
+        #confirmationPopup {
+            visibility: hidden;
+            width: 200px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 2px;
+            padding: 10px;
+            position: fixed;
+            z-index: 1;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
         }
         .page-title {
             text-align: center;
@@ -84,8 +100,8 @@
             <p><strong>Usage Tips:</strong></p>
             <ul>
                 <li>Upload a JSON file to populate the textarea.</li>
-                <li>Click "Expand" to show and edit the JSON data.</li>
-                <li>Click "Collapse" to hide the textarea.</li>
+                <li>Click "View" to show and edit the JSON data.</li>
+                <li>Click "Hide" to hide the textarea.</li>
                 <li>Convert JSON to a table for easy manipulation.</li>
                 <li>Convert the table back to JSON format.</li>
             </ul>
@@ -105,8 +121,8 @@
                 <div id="textarea_container">
                     <textarea class="form-control" id="Textarea1" rows="8">[]</textarea>
                     <div id="textarea_buttons">
-                        <button id='expand_btn' type="button" class="btn btn-secondary btn-sm">Expand</button>
-                        <button id='collapse_btn' type="button" class="btn btn-secondary btn-sm">Collapse</button>
+                        <button id='expand_btn' type="button" class="btn btn-secondary btn-sm">View</button>
+                        <button id='collapse_btn' type="button" class="btn btn-secondary btn-sm">Hide</button>
                     </div>
                 </div>
             </div>
@@ -115,7 +131,7 @@
         <div class="row mt-3">
             <div class='col-md-4'></div>
             <div id='button_container' class='col-md-3'>
-                <button id='json_to_table_btn' type="button" class="btn btn-primary btn-lg btn-block">JSON to Table</button>
+                <button id='json_to_table_btn' type="button" class="btn btn-primary btn-lg btn-block">View JSON as Table</button>
             </div>
         </div>
 
@@ -127,21 +143,30 @@
             <div class='col-md-4'></div>
             <div id='button_container' class='col-md-3'>
                 <button id='table_to_json_btn' type="button" class="btn btn-primary btn-lg btn-block">Table to JSON</button>
+                <button type="button"  class="btn btn-primary btn-sm btn-block" onclick="copyToClipboard('result_container')">Copy Modified JSON</button>
+
             </div>
         </div>
 
         <div class="row mt-3">
-            <div id='result_container' class='col-md-12'></div>
+            <div id="confirmationPopup">Copied to clipboard!</div>
+            <div id='result_container' class='col-md-12' style="display: none;">
+                
+            </div>
+            <div id="jsonEditor" style="width: 600px; height: 400px;"></div>
+
         </div>
 
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.js"></script>
     <script src="./scripts/jquery-3.3.1.min.js"></script>
     <script src="./scripts/bootstrap.min.js"></script>
     <script src="./scripts/jquery.contextMenu.min.js"></script>
     <script src="./scripts/jsoneditor.js"></script>
 
     <script>
+        
         $(document).ready(function () {
             jsonEditorInit('table_container', 'Textarea1', 'result_container', 'json_to_table_btn', 'table_to_json_btn');
 
@@ -166,6 +191,39 @@
                 $('#Textarea1').hide();
             });
         });
+
+
+        //
+        function copyToClipboard(id) {
+            // Create a temporary textarea element to hold the text
+            var textarea = document.createElement('textarea');
+            //textarea.value = document.getElementById(id).innerText;
+
+            var jsonObject = JSON.parse(document.getElementById(id).innerText);
+            var prettyJsonString = JSON.stringify(jsonObject, null, 4); // 4-space indentation
+            textarea.value =prettyJsonString;
+
+
+            document.body.appendChild(textarea);
+
+            // Select the text
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text to the clipboard
+            document.execCommand('copy');
+
+            // Remove the temporary textarea element
+            document.body.removeChild(textarea);
+
+            // Show confirmation popup
+            var popup = document.getElementById('confirmationPopup');
+            popup.style.visibility = 'visible';
+            setTimeout(function() {
+                popup.style.visibility = 'hidden';
+            }, 2000);
+        }
+        
     </script>
 
 </body>

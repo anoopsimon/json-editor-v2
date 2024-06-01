@@ -32,11 +32,14 @@ function jsonEditorInit(table_container_id, json_input_container_id, json_output
     $('#' + table_to_json_btn_id).on('click', function(){
         var jsonData = makeJson();
         saveJsonToStorage(jsonData); // Save JSON to storage
+        var j = JSON.stringify(jsonData);
         if ( $('#' + json_output_container_id ).is("input") ) {	
-            $('#' + json_output_container_id ).val(JSON.stringify(jsonData));
+            $('#' + json_output_container_id ).val(j);
         } else {
-            $('#' + json_output_container_id ).html(JSON.stringify(jsonData));
+            $('#' + json_output_container_id ).html(j);
         }
+
+        renderJsonEditor(j);
     });
 
     $('#' + json_to_table_btn_id).on('click', function(){
@@ -283,6 +286,21 @@ function makeJson(counter = 1){
     });
     return data;
 }
+
+function renderJsonEditor(jsonString) {
+    // Parse the JSON string
+    var jsonData = JSON.parse(jsonString);
+    // Initialize the JSON editor
+    var container = document.getElementById('jsonEditor');
+    var options = {
+        mode: 'tree'
+    };
+    var editor = new JSONEditor(container, options);
+    // Set the JSON data
+    editor.set(jsonData);
+}
+
+
 
 function saveJsonToStorage(jsonData) {
     console.log("saving to local storage")
