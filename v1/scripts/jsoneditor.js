@@ -328,16 +328,17 @@ function renderJsonEditor(jsonString) {
 
 
 function saveJsonToStorage(jsonData) {
-    console.log("saving to local storage")
-    localStorage.setItem('jsonTableData', JSON.stringify(jsonData));
+    console.log("saving to session storage");
+    sessionStorage.setItem('jsonTableData', JSON.stringify(jsonData));
 }
 
 function loadJsonFromStorage() {
-    var storedJson = localStorage.getItem('jsonTableData');
+    var storedJson = sessionStorage.getItem('jsonTableData');
     if (storedJson) {
         var jsonData = JSON.parse(storedJson);
-        $('#' + gbl_table_container_id ).html(makeTable(jsonData));
+        $('#' + gbl_table_container_id).html(makeTable(jsonData));
         $('.json_table').addClass('table table-bordered table-striped table-hover table-sm');
         $('.json_table thead').addClass('thead-dark');
     }
 }
+
