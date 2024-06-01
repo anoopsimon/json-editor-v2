@@ -5,9 +5,32 @@
     <link rel="stylesheet" href="./styles/bootstrap.min.css"/>
     <link rel="stylesheet" href="./styles/jquery.contextMenu.min.css"/>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .page-title {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .page-title h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .page-title h2 {
+            font-size: 1.5rem;
+            color: #555;
+        }
+        .tips {
+            background-color: #dff0d8;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
         #textarea_container {
             display: flex;
             align-items: flex-start;
+            margin-top: 20px;
         }
         #Textarea1 {
             flex: 1;
@@ -18,6 +41,33 @@
             flex-direction: column;
             margin-left: 10px;
         }
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .file-upload span {
+            background-color: #007bff;
+            color: white;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .file-upload input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
     </style>
 </head>
 
@@ -25,10 +75,28 @@
 
     <div class="container">
 
+        <div class="page-title">
+            <h1>JSON Table Editor</h1>
+            <h2>Upload and Edit JSON Data Easily</h2>
+        </div>
+
+        <div class="tips">
+            <p><strong>Usage Tips:</strong></p>
+            <ul>
+                <li>Upload a JSON file to populate the textarea.</li>
+                <li>Click "Expand" to show and edit the JSON data.</li>
+                <li>Click "Collapse" to hide the textarea.</li>
+                <li>Convert JSON to a table for easy manipulation.</li>
+                <li>Convert the table back to JSON format.</li>
+            </ul>
+        </div>
+
         <div class="row mt-3">
             <div class='col-md-12'>
-                <label for="file_input">Upload a JSON file</label>
-                <input type="file" id="file_input" class="form-control-file" accept=".json">
+                <div class="file-upload">
+                    <span>Upload a JSON file</span>
+                    <input type="file" id="file_input" accept=".json">
+                </div>
             </div>
         </div>
 
