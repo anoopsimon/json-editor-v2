@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex JSON Generator</title>
+</head>
+<body>
+    <h1>Complex JSON Generator</h1>
+    <form id="jsonForm">
+        <label for="sheetCount">Number of Sheets:</label>
+        <input type="number" id="sheetCount" name="sheetCount" value="2" min="1" max="10"><br><br>
+        <label for="columnCount">Number of Columns per Sheet:</label>
+        <input type="number" id="columnCount" name="columnCount" value="3" min="1" max="10"><br><br>
+        <label for="rowCount">Number of Rows per Sheet:</label>
+        <input type="number" id="rowCount" name="rowCount" value="3" min="1" max="10"><br><br>
+        <button type="button" onclick="generateJSON()">Generate JSON</button>
+    </form>
+    <br>
+    <textarea id="jsonOutput" rows="20" cols="100"></textarea><br>
+    <button onclick="copyToClipboard()">Copy to Clipboard</button>
+
+    <script>
+        const sheetNames = ["Login", "Product Selection", "Cart", "Checkout", "Payment", "Confirmation"];
+
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        function generateTestCaseID() {
+            return 'TC' + Math.floor(Math.random() * 1000000);
+        }
+
+        function generateJSON() {
+            const sheetCount = document.getElementById('sheetCount').value;
+            const columnCount = document.getElementById('columnCount').value;
+            const rowCount = document.getElementById('rowCount').value;
+            const workbook = [];
+
+            for (let i = 0; i < sheetCount; i++) {
+                const sheet = {
+                    "sheetName": sheetNames[i % sheetNames.length],
+                    "rows": []
+                };
+
+                const headers = {
+                    "FieldName": "FieldName",
+                    "ControlType": "ControlType",
+                    "Selector": "Selector"
+                };
+                sheet.rows.push(headers);
+
+                for (let j = 0; j < rowCount; j++) {
+                    const row = {
+                        "FieldName": `Field${generateRandomString(5)}`,
+                        "ControlType": "Input",
+                        "Selector": `#${generateRandomString(5)}`,
+                        "TestCaseID": generateTestCaseID()
+                    };
+                    sheet.rows.push(row);
+                }
+                workbook.push(sheet);
+            }
+
+            document.getElementById('jsonOutput').value = JSON.stringify(workbook, null, 2);
+        }
+
+        function copyToClipboard() {
+            const jsonOutput = document.getElementById('jsonOutput');
+            jsonOutput.select();
+            document.execCommand('copy');
+            alert('JSON copied to clipboard');
+        }
+    </script>
+</body>
+</html>
