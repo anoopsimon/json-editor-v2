@@ -78,6 +78,7 @@ function jsonEditorInit(table_container_id, json_input_container_id, json_output
         $('#' + table_container_id ).html(makeTable(json_arr));
         $('.json_table').addClass('table table-bordered table-striped table-hover table-sm');
         $('.json_table thead').addClass('thead-dark');
+        document.getElementById("table_to_json_btn").style.display="block";
     });
 }
 

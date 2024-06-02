@@ -63,7 +63,6 @@
             display: inline-block;
         }
         .file-upload span {
-            background-color: #007bff;
             color: white;
             padding: 6px 12px;
             cursor: pointer;
@@ -108,19 +107,29 @@
         </div>
 
         <div class="row mt-3">
-            <div class='col-md-12'>
-                <div class="file-upload">
+            <div class='col-md-4'></div>
+            <div id='button_container' class='col-md-3'>
+                <div class="file-upload btn btn-primary btn-lg btn-block">
                     <span>Upload a JSON file</span>
                     <input type="file" id="file_input" accept=".json">
                 </div>
             </div>
         </div>
 
+        <!-- <div class="row mt-3">
+            <div id='button_container' class='col-md-3'>
+                <div class="file-upload">
+                    <span>Upload a JSON file</span>
+                    <input type="file" id="file_input" accept=".json">
+                </div>
+            </div>
+        </div> -->
+
         <div class="row mt-3">
             <div id='input_container' class='col-md-12'>
                 <div id="textarea_container">
                     <textarea class="form-control" id="Textarea1" rows="8">[]</textarea>
-                    <div id="textarea_buttons">
+                    <div id="textarea_buttons" style="display: none;">
                         <button id='expand_btn' type="button" class="btn btn-secondary btn-sm">View</button>
                         <button id='collapse_btn' type="button" class="btn btn-secondary btn-sm">Hide</button>
                     </div>
@@ -131,7 +140,7 @@
         <div class="row mt-3">
             <div class='col-md-4'></div>
             <div id='button_container' class='col-md-3'>
-                <button id='json_to_table_btn' type="button" class="btn btn-primary btn-lg btn-block">View JSON as Table</button>
+                <button style="display: none;" id='json_to_table_btn' type="button" class="btn btn-primary btn-lg btn-block">View JSON as Table</button>
             </div>
         </div>
 
@@ -142,8 +151,7 @@
         <div class="row mt-3">
             <div class='col-md-4'></div>
             <div id='button_container' class='col-md-3'>
-                <button id='table_to_json_btn' type="button" class="btn btn-primary btn-lg btn-block">View and Copy Modified JSON</button>
-                <!-- <button type="button"  class="btn btn-primary btn-sm btn-block" onclick="copyToClipboard('result_container')">Copy Modified JSON</button> -->
+                <button style="display:none;" id='table_to_json_btn' type="button" class="btn btn-primary btn-lg btn-block">View and Copy Modified JSON</button>
 
             </div>
         </div>
@@ -180,6 +188,10 @@
                     }
                     reader.readAsText(file);
                 }
+
+                //show buttons => Show/Hide
+                document.getElementById("textarea_buttons").style.display="block";
+                document.getElementById("json_to_table_btn").style.display="block";
             });
 
             $('#expand_btn').on('click', function () {
