@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#confirmationPopup {
+    visibility: hidden;
+    width: 200px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    border-radius: 2px;
+    padding: 10px;
+    position: fixed;
+    z-index: 1;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.page-title {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.page-title h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.page-title h2 {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.tips {
+    background-color: #dff0d8;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    margin-top: 20px;
+}
+
+#textarea_container {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+#Textarea1 {
+    flex: 1;
+    display: none;
+}
+
+#textarea_buttons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.file-upload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.file-upload span {
+    color: white;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.file-upload input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.json-viewer {
+    font-family: 'Fira Code', 'Consolas', 'Courier New', 'Source Code Pro', 'Menlo', 'Roboto Mono', 'Inconsolata', 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+    height: 1500px;
+    width: 400px;
+    margin: auto;
+}

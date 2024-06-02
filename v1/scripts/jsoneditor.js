@@ -41,8 +41,7 @@ function jsonEditorInit(table_container_id, json_input_container_id, json_output
     
         if (!textarea) {
             textarea = document.createElement('textarea');
-            textarea.style.height = '1000px';
-            textarea.style.width = '500px';
+            textarea.className ='json-viewer';
             container.appendChild(textarea);
         }
     

@@ -2,88 +2,10 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.css">
-
-    <link rel="stylesheet" href="./styles/bootstrap.min.css"/>
-    <link rel="stylesheet" href="./styles/jquery.contextMenu.min.css"/>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        #confirmationPopup {
-            visibility: hidden;
-            width: 200px;
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            border-radius: 2px;
-            padding: 10px;
-            position: fixed;
-            z-index: 1;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .page-title {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .page-title h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-        .page-title h2 {
-            font-size: 1.5rem;
-            color: #555;
-        }
-        .tips {
-            background-color: #dff0d8;
-            padding: 15px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            margin-top: 20px;
-        }
-        #textarea_container {
-            display: flex;
-            align-items: flex-start;
-            margin-top: 20px;
-        }
-        #Textarea1 {
-            flex: 1;
-            display: none;
-        }
-        #textarea_buttons {
-            display: flex;
-            flex-direction: column;
-            margin-left: 10px;
-        }
-        .file-upload {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-        .file-upload span {
-            color: white;
-            padding: 6px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .file-upload input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            min-width: 100%;
-            min-height: 100%;
-            font-size: 100px;
-            text-align: right;
-            filter: alpha(opacity=0);
-            opacity: 0;
-            outline: none;
-            background: white;
-            cursor: inherit;
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="./styles/bootstrap.min.css" />
+    <link rel="stylesheet" href="./styles/jquery.contextMenu.min.css" />
+    <link rel="stylesheet" href="./styles/app.css" />
+   
 </head>
 
 <body>
@@ -140,7 +62,8 @@
         <div class="row mt-3">
             <div class='col-md-4'></div>
             <div id='button_container' class='col-md-3'>
-                <button style="display: none;" id='json_to_table_btn' type="button" class="btn btn-primary btn-lg btn-block">View JSON as Table</button>
+                <button style="display: none;" id='json_to_table_btn' type="button"
+                    class="btn btn-primary btn-lg btn-block">View JSON as Table</button>
             </div>
         </div>
 
@@ -151,15 +74,16 @@
         <div class="row mt-3">
             <div class='col-md-4'></div>
             <div id='button_container' class='col-md-3'>
-                <button style="display:none;" id='table_to_json_btn' type="button" class="btn btn-primary btn-lg btn-block">View and Copy Modified JSON</button>
+                <button style="display:none;" id='table_to_json_btn' type="button"
+                    class="btn btn-primary btn-lg btn-block">View and Copy Modified JSON</button>
 
             </div>
         </div>
 
         <div class="row mt-3">
             <div id="confirmationPopup">Copied to clipboard!</div>
-            <div id='result_container' class='col-md-12' >
-                
+            <div id='result_container' class='col-md-12'>
+
             </div>
             <div id="jsonEditor" style="width: 600px; height: 400px;"></div>
 
@@ -167,14 +91,14 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.js"></script>
     <script src="./scripts/jquery-3.3.1.min.js"></script>
     <script src="./scripts/bootstrap.min.js"></script>
     <script src="./scripts/jquery.contextMenu.min.js"></script>
     <script src="./scripts/jsoneditor.js"></script>
+    <script src="./scripts/app.js"></script>
 
     <script>
-        
+
         $(document).ready(function () {
             jsonEditorInit('table_container', 'Textarea1', 'result_container', 'json_to_table_btn', 'table_to_json_btn');
 
@@ -190,8 +114,8 @@
                 }
 
                 //show buttons => Show/Hide
-                document.getElementById("textarea_buttons").style.display="block";
-                document.getElementById("json_to_table_btn").style.display="block";
+                document.getElementById("textarea_buttons").style.display = "block";
+                document.getElementById("json_to_table_btn").style.display = "block";
             });
 
             $('#expand_btn').on('click', function () {
@@ -205,7 +129,7 @@
         });
 
 
-        
+
     </script>
 
 </body>
