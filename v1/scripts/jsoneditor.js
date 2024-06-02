@@ -47,6 +47,7 @@ function jsonEditorInit(table_container_id, json_input_container_id, json_output
     
         textarea.value = prettyJsonString;
         copyToClipboard(prettyJsonString);
+        downloadJSON(prettyJsonString,'updatedJson.json');
     });
     
     
@@ -312,21 +313,6 @@ function makeJson(counter = 1){
     return data;
 }
 
-function renderJsonEditor(jsonString) {
-    // Parse the JSON string
-    var jsonData = JSON.parse(jsonString);
-    // Initialize the JSON editor
-    var container = document.getElementById('jsonEditor');
-    var options = {
-        mode: 'tree'
-    };
-    var editor = new JSONEditor(container, options);
-    // Set the JSON data
-    editor.set(jsonData);
-}
-
-
-
 function saveJsonToStorage(jsonData) {
     console.log("saving to session storage");
     sessionStorage.setItem('jsonTableData', JSON.stringify(jsonData));
@@ -342,3 +328,47 @@ function loadJsonFromStorage() {
     }
 }
 
+$(document).ready(function () {
+    jsonEditorInit('table_container', 'Textarea1', 'result_container', 'json_to_table_btn', 'table_to_json_btn');
+    
+    $('#file_input').on('change', function (event) {
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#Textarea1').val(e.target.result);
+                $('#Textarea1').show();
+            }
+            reader.readAsText(file);
+        }
+
+        //show buttons => Show/Hide
+        document.getElementById("textarea_buttons").style.display = "block";
+        document.getElementById("json_to_table_btn").style.display = "block";
+    });
+
+    $('#expand_btn').on('click', function () {
+        $('#Textarea1').show();
+        $('#Textarea1').css('height', '400px');
+    });
+
+    $('#collapse_btn').on('click', function () {
+        $('#Textarea1').hide();
+
+    });
+});
+
+function downloadJSON(jsonString, filename) {
+   
+    console.log('Dowloading to file ' + filename);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${filename}.json`;
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+}
