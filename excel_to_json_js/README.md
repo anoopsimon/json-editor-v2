@@ -10,8 +10,8 @@ This Node.js project converts an Excel workbook to a specified JSON format.
 ## Setup
 
 1. Install the dependencies:
-   npm install
+   `npm install`
 
-2.Run the script:
+2. Run the script:
 
-`node index.js`
+`npm run start`

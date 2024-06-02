@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx tsc && node dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^20.13.0",
+    "@types/xlsx": "^0.0.36",
+    "typescript": "^5.4.5",
     "xlsx": "^0.18.5"
   }
 }
