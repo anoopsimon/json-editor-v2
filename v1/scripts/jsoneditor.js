@@ -18,6 +18,28 @@ var max_counter = 0;
 var obj_clicked_row = {};
 var obj_clicked_col = {};
 
+const usageTips = [
+    "Click on <strong> Upload a JSON File </strong> button",
+    "Click <strong> Show/Hide </strong> to toggle textarea display",
+    "Click <strong>'View JSON as Table'</strong> to show and edit the JSON data.",
+    "JSON will be displayed as a TABLE, which can be edited using Click , Type and Context Menu(Right Click) options",
+    "Click on <strong> View and Copy Modified JSON</strong> button to copy modified JSON to clipboard",
+    "Copied content will be downloaded to default download location with file name <strong> UpdatedJson.json</strong>"
+];
+
+function renderTips(){
+        const tipsList = document.getElementById('tipsList');
+        tipsList.innerHTML = ''; 
+
+        usageTips.forEach(tip => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = tip;
+            tipsList.appendChild(listItem);
+        });
+    }
+
+   
+
 function jsonEditorInit(table_container_id, json_input_container_id, json_output_container_id, json_to_table_btn_id, table_to_json_btn_id) {
     
     gbl_table_container_id = table_container_id;
@@ -47,7 +69,7 @@ function jsonEditorInit(table_container_id, json_input_container_id, json_output
     
         textarea.value = prettyJsonString;
         copyToClipboard(prettyJsonString);
-        downloadJSON(prettyJsonString,'updatedJson.json');
+        downloadJSON(prettyJsonString,'updatedJson');
     });
     
     
@@ -330,7 +352,7 @@ function loadJsonFromStorage() {
 
 $(document).ready(function () {
     jsonEditorInit('table_container', 'Textarea1', 'result_container', 'json_to_table_btn', 'table_to_json_btn');
-    
+    renderTips();
     $('#file_input').on('change', function (event) {
         var file = event.target.files[0];
         if (file) {
