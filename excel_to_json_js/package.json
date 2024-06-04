@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx tsc && node dist/index.js"
+    "start": "npx tsc && node dist/index.js",
+    "scanexcel": "npx tsc && node dist/excelScanner.js"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +13,14 @@
   "dependencies": {
     "@types/node": "^20.13.0",
     "@types/xlsx": "^0.0.36",
+    "date-fns": "^3.6.0",
+    "exceljs": "^4.4.0",
+    "fs-extra": "^11.2.0",
+    "path": "^0.12.7",
     "typescript": "^5.4.5",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4"
   }
 }
